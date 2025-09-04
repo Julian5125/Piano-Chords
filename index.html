@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <title>iPad Piano Trainer (Ultra‑Compact)</title>
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -20,6 +20,9 @@
       --key-highlight: #ffdd57;
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { touch-action: manipulation; }
+    /* Prevent selection/callout on interactive UI */
+    .app, .panel, .controls, .btn, .pill, .keyboard, .white-keys, .black-keys, .key { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
     html, body { height: 100%; }
     body { margin: 0; background: radial-gradient(1200px 800px at 40% 0%, #141834, #0b0e1d 70%); color: var(--text); font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
 
@@ -70,7 +73,7 @@
     .key.black.highlight { outline-color: #ffd54a; }
 
     .draw-wrap { position:absolute; inset:0; pointer-events: none; z-index: 5; }
-    canvas.drawing { position:absolute; inset:0; pointer-events:auto; touch-action: none; }
+    canvas.drawing { position:absolute; inset:0; pointer-events:auto; touch-action: none; -webkit-user-select: none; user-select: none; }
 
     .mode-tag { font-size: 12px; color: var(--muted); }
 
@@ -279,6 +282,8 @@
     // Init
     buildKeyboards(); setMode('practice'); newChord();
     document.addEventListener('gesturestart', e=> e.preventDefault());
+    // Block double-tap to zoom / select
+    document.addEventListener('dblclick', (e) => { e.preventDefault(); }, { passive:false });
   </script>
 </body>
 </html>
